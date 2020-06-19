@@ -5,5 +5,7 @@
         public FileOptions File { get; set; }
 
         public ElasticsearchOptions Elasticsearch { get; set; }
+
+        public EventLogOptions EventLog { get; set; }
     }
 }

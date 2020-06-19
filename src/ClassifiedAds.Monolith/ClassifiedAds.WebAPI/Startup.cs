@@ -26,8 +26,6 @@ namespace ClassifiedAds.WebAPI
 
             AppSettings = new AppSettings();
             Configuration.Bind(AppSettings);
-
-            env.UseClassifiedAdsLogger(AppSettings.LoggerOptions);
         }
 
         public IConfiguration Configuration { get; }

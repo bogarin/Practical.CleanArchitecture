@@ -29,8 +29,6 @@ namespace ClassifiedAds.BackgroundServer
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
-
-            env.UseClassifiedAdsLogger();
         }
 
         public IConfiguration Configuration { get; }

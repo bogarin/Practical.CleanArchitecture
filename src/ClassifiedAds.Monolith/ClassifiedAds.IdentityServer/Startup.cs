@@ -14,8 +14,6 @@ namespace ClassifiedAds.IdentityServer
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
-
-            env.UseClassifiedAdsLogger();
         }
 
         public IConfiguration Configuration { get; }

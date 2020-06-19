@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.EventLog;
 using Serilog;
 using Serilog.Formatting.Json;
 using Serilog.Sinks.Elasticsearch;
@@ -11,21 +14,8 @@ namespace ClassifiedAds.Infrastructure.Logging
 {
     public static class LoggingExtensions
     {
-        public static void UseClassifiedAdsLogger(this IWebHostEnvironment env, LoggerOptions options = null)
+        private static void UseClassifiedAdsLogger(this IWebHostEnvironment env, LoggerOptions options)
         {
-            options ??= new LoggerOptions
-            {
-                File = new FileOptions
-                {
-                    MinimumLogEventLevel = Serilog.Events.LogEventLevel.Debug,
-                },
-                Elasticsearch = new ElasticsearchOptions
-                {
-                    IsEnabled = false,
-                    MinimumLogEventLevel = Serilog.Events.LogEventLevel.Debug,
-                },
-            };
-
             var assemblyName = Assembly.GetEntryAssembly()?.GetName().Name;
 
             var logsPath = Path.Combine(env.ContentRootPath, "logs");
@@ -83,23 +73,53 @@ namespace ClassifiedAds.Infrastructure.Logging
                         // BufferBaseFilename = Path.Combine(env.ContentRootPath, "logs", "buffer"),
                         InlineFields = true,
                         EmitEventFailure = EmitEventFailureHandling.WriteToFailureSink,
-                        FailureSink = new FileSink(Path.Combine(logsPath, "elasticsearch-failures.txt"), new JsonFormatter(), null)
+                        FailureSink = new FileSink(Path.Combine(logsPath, "elasticsearch-failures.txt"), new JsonFormatter(), null),
                     });
             }
 
             Log.Logger = loggerConfiguration.CreateLogger();
         }
 
-        public static IWebHostBuilder UseClassifiedAdsLogger(this IWebHostBuilder builder)
+        private static LoggerOptions SetDefault(LoggerOptions options)
         {
-            builder.ConfigureLogging(logging =>
+            options ??= new LoggerOptions
             {
-                //logging.AddEventLog(new EventLogSettings
-                //{
-                //    LogName = "ClassifiedAds",
-                //    SourceName = "WebAPI",
-                //    Filter = (a, b) => b >= LogLevel.Information
-                //});
+            };
+
+            options.File ??= new FileOptions
+            {
+                MinimumLogEventLevel = Serilog.Events.LogEventLevel.Debug,
+            };
+
+            options.Elasticsearch ??= new ElasticsearchOptions
+            {
+                IsEnabled = false,
+                MinimumLogEventLevel = Serilog.Events.LogEventLevel.Debug,
+            };
+
+            options.EventLog ??= new EventLogOptions
+            {
+                IsEnabled = false,
+            };
+            return options;
+        }
+
+        public static IWebHostBuilder UseClassifiedAdsLogger(this IWebHostBuilder builder, Func<IConfiguration, LoggerOptions> logOptions)
+        {
+            builder.ConfigureLogging((context, logging) =>
+            {
+                LoggerOptions options = SetDefault(logOptions(context.Configuration));
+
+                if (options.EventLog != null && options.EventLog.IsEnabled)
+                {
+                    logging.AddEventLog(new EventLogSettings
+                    {
+                        LogName = options.EventLog.LogName,
+                        SourceName = options.EventLog.SourceName,
+                    });
+                }
+
+                context.HostingEnvironment.UseClassifiedAdsLogger(options);
             });
 
             builder.UseSerilog();
