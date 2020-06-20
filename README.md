@@ -44,9 +44,10 @@
 ![alt text](/docs/imgs/code-solution-structure.png)
 
 # How to Run:
-
-## Configure Database
-
+## Update Configuration
+<details>
+  <summary><b>Database</b></summary>
+  
 - Update Connection Strings:
 
   | Project  | Configuration File | Configuration Key |
@@ -85,111 +86,192 @@
       Update-Database -Context ConfigurationDbContext
       Update-Database -Context PersistedGrantDbContext
       ```
+</details>
 
-## Configure Storage
-
-- Open [ClassifiedAds.WebMVC/appsettings.json](/src/ClassifiedAds.Monolith/ClassifiedAds.WebMVC/appsettings.json) and jump to **Storage** section.
-  ```js
-  "Storage": {
-    "Provider": "Local",
-  },
-  ```
-
-- Use Local Files:
-  ```js
-  "Storage": {
-    "Provider": "Local",
-    "Local": {
-      "Path": "E:\\files"
+<details>
+  <summary><b>Storage</b></summary>
+  
+  - Open [ClassifiedAds.WebMVC/appsettings.json](/src/ClassifiedAds.Monolith/ClassifiedAds.WebMVC/appsettings.json) and jump to **Storage** section.
+    ```js
+    "Storage": {
+      "Provider": "Local",
     },
-  },
-  ```
+    ```
 
-- Use Azure Blob:
-  ```js
-  "Storage": {
-    "Provider": "Azure",
-    "Azure": {
-      "ConnectionString": "xxx",
-      "Container": "classifiedadds"
+  - Use Local Files:
+    ```js
+    "Storage": {
+      "Provider": "Local",
+      "Local": {
+        "Path": "E:\\files"
+      },
     },
-  },
-  ```
+    ```
 
-- Use Amazon S3:
-  ```js
-  "Storage": {
-    "Provider": "Amazon",
-    "Amazon": {
-      "AccessKeyID": "xxx",
-      "SecretAccessKey": "xxx",
-      "BucketName": "classifiedadds",
-      "RegionEndpoint": "ap-southeast-1"
+  - Use Azure Blob:
+    ```js
+    "Storage": {
+      "Provider": "Azure",
+      "Azure": {
+        "ConnectionString": "xxx",
+        "Container": "classifiedadds"
+      },
+    },
+    ```
+
+  - Use Amazon S3:
+    ```js
+    "Storage": {
+      "Provider": "Amazon",
+      "Amazon": {
+        "AccessKeyID": "xxx",
+        "SecretAccessKey": "xxx",
+        "BucketName": "classifiedadds",
+        "RegionEndpoint": "ap-southeast-1"
+      }
+    },
+    ```
+</details>
+
+<details>
+  <summary><b>Message Broker</b></summary>
+  
+  - Open [ClassifiedAds.WebMVC/appsettings.json](/src/ClassifiedAds.Monolith/ClassifiedAds.WebMVC/appsettings.json) and [ClassifiedAds.BackgroundServer/appsettings.json](/src/ClassifiedAds.Monolith/ClassifiedAds.BackgroundServer/appsettings.json) and jump to **MessageBroker** section.
+    ```js
+    "MessageBroker": {
+      "Provider": "RabbitMQ",
     }
-  },
-  ```
+    ```
 
-## Configure Message Broker
-
-- Open [ClassifiedAds.WebMVC/appsettings.json](/src/ClassifiedAds.Monolith/ClassifiedAds.WebMVC/appsettings.json) and [ClassifiedAds.BackgroundServer/appsettings.json](/src/ClassifiedAds.Monolith/ClassifiedAds.BackgroundServer/appsettings.json) and jump to **MessageBroker** section.
-  ```js
-  "MessageBroker": {
-    "Provider": "RabbitMQ",
-  }
-  ```
-
-- Use RabbitMQ
-  ```js
-  "MessageBroker": {
-    "Provider": "RabbitMQ",
-    "RabbitMQ": {
-      "HostName": "localhost",
-      "UserName": "guest",
-      "Password": "guest",
-      "ExchangeName": "amq.direct",
-      "RoutingKey_FileUploaded": "classifiedadds_fileuploaded",
-      "RoutingKey_FileDeleted": "classifiedadds_filedeleted",
-      "QueueName_FileUploaded": "classifiedadds_fileuploaded",
-      "QueueName_FileDeleted": "classifiedadds_filedeleted"
-    },
-  }
-  ```
-
-- Use Kafka:
-  ```js
-  "MessageBroker": {
-    "Provider": "Kafka",
-    "Kafka": {
-      "BootstrapServers": "localhost:9092",
-      "Topic_FileUploaded": "classifiedadds_fileuploaded",
-      "Topic_FileDeleted": "classifiedadds_filedeleted"
-    },
-  }
-  ```
-
-- Use Azure Queue Storage:
-  ```js
-  "MessageBroker": {
-    "Provider": "AzureQueue",
-    "AzureQueue": {
-      "ConnectionString": "xxx",
-      "QueueName_FileUploaded": "classifiedadds-fileuploaded",
-      "QueueName_FileDeleted": "classifiedadds-filedeleted"
-    },
-  }
-  ```
-
-- Use Azure Service Bus:
-  ```js
-  "MessageBroker": {
-    "Provider": "AzureServiceBus",
-    "AzureServiceBus": {
-      "ConnectionString": "xxx",
-      "QueueName_FileUploaded": "classifiedadds_fileuploaded",
-      "QueueName_FileDeleted": "classifiedadds_filedeleted"
+  - Use RabbitMQ
+    ```js
+    "MessageBroker": {
+      "Provider": "RabbitMQ",
+      "RabbitMQ": {
+        "HostName": "localhost",
+        "UserName": "guest",
+        "Password": "guest",
+        "ExchangeName": "amq.direct",
+        "RoutingKey_FileUploaded": "classifiedadds_fileuploaded",
+        "RoutingKey_FileDeleted": "classifiedadds_filedeleted",
+        "QueueName_FileUploaded": "classifiedadds_fileuploaded",
+        "QueueName_FileDeleted": "classifiedadds_filedeleted"
+      },
     }
-  }
-  ```
+    ```
+
+  - Use Kafka:
+    ```js
+    "MessageBroker": {
+      "Provider": "Kafka",
+      "Kafka": {
+        "BootstrapServers": "localhost:9092",
+        "Topic_FileUploaded": "classifiedadds_fileuploaded",
+        "Topic_FileDeleted": "classifiedadds_filedeleted"
+      },
+    }
+    ```
+
+  - Use Azure Queue Storage:
+    ```js
+    "MessageBroker": {
+      "Provider": "AzureQueue",
+      "AzureQueue": {
+        "ConnectionString": "xxx",
+        "QueueName_FileUploaded": "classifiedadds-fileuploaded",
+        "QueueName_FileDeleted": "classifiedadds-filedeleted"
+      },
+    }
+    ```
+
+  - Use Azure Service Bus:
+    ```js
+    "MessageBroker": {
+      "Provider": "AzureServiceBus",
+      "AzureServiceBus": {
+        "ConnectionString": "xxx",
+        "QueueName_FileUploaded": "classifiedadds_fileuploaded",
+        "QueueName_FileDeleted": "classifiedadds_filedeleted"
+      }
+    }
+    ```
+</details>
+
+<details>
+  <summary><b>Logging</b></summary>
+  
+  - Open and jump to **LoggerOptions** section of below files:
+    + [ClassifiedAds.WebAPI/appsettings.json](/src/ClassifiedAds.Monolith/ClassifiedAds.WebAPI/appsettings.json)
+    + [ClassifiedAds.WebMVC/appsettings.json](/src/ClassifiedAds.Monolith/ClassifiedAds.WebMVC/appsettings.json)
+    + [ClassifiedAds.IdentityServer/appsettings.json](/src/ClassifiedAds.Monolith/ClassifiedAds.IdentityServer/appsettings.json)
+    + [ClassifiedAds.BackgroundServer/appsettings.json](/src/ClassifiedAds.Monolith/ClassifiedAds.BackgroundServer/appsettings.json)
+    ```js
+    "LoggerOptions": {
+      "File": {
+        "MinimumLogEventLevel": "Information"
+      },
+      "Elasticsearch": {
+        "IsEnabled": false,
+        "Host": "http://localhost:9200",
+        "IndexFormat": "classifiedads",
+        "MinimumLogEventLevel": "Information"
+      },
+      "EventLog": {
+        "IsEnabled": false,
+        "LogName": "Application",
+        "SourceName": "ClassifiedAds.WebAPI"
+      }
+    },
+    ```
+  - Write to Local file (./logs/log.txt). Always enabled.
+    ```js
+    "LoggerOptions": {
+      "File": {
+        "MinimumLogEventLevel": "Information"
+      },
+    },
+    ```
+  - Write to Elasticsearch:
+    ```js
+    "LoggerOptions": {
+      "Elasticsearch": {
+        "IsEnabled": true,
+        "Host": "http://localhost:9200",
+        "IndexFormat": "classifiedads",
+        "MinimumLogEventLevel": "Information"
+      },
+    },
+    ```
+  - Write to Windows Event Log (Windows only):
+    ```js
+    "LoggerOptions": {
+      "EventLog": {
+        "IsEnabled": true,
+        "LogName": "Application",
+        "SourceName": "ClassifiedAds.WebAPI"
+      }
+    },
+    ```
+  - Enable all options:
+    ```js
+    "LoggerOptions": {
+      "File": {
+        "MinimumLogEventLevel": "Information"
+      },
+      "Elasticsearch": {
+        "IsEnabled": true,
+        "Host": "http://localhost:9200",
+        "IndexFormat": "classifiedads",
+        "MinimumLogEventLevel": "Information"
+      },
+      "EventLog": {
+        "IsEnabled": true,
+        "LogName": "Application",
+        "SourceName": "ClassifiedAds.WebAPI"
+      }
+    },
+    ```
+</details>
 
 ## Set Startup Projects
 ![alt text](/docs/imgs/startup-projects.png)
