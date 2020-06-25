@@ -1,6 +1,5 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using ClassifiedAds.Domain.Entities;
-using ClassifiedAds.Infrastructure.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -59,11 +58,13 @@ namespace ClassifiedAds.IdentityServer
                 .AllowAnyMethod()
             );
 
-            app.UseClassifiedAdsProfiler();
             app.UseIdentityServer();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => {
+            app.UseClassifiedAdsProfiler();
+
+            app.UseEndpoints(endpoints =>
+            {
                 endpoints.MapDefaultControllerRoute();
             });
         }

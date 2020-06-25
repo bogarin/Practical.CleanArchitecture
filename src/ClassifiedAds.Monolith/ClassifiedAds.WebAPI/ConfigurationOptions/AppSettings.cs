@@ -1,4 +1,5 @@
 ﻿using ClassifiedAds.Infrastructure.Logging;
+using System.Collections.Generic;
 
 namespace ClassifiedAds.WebAPI.ConfigurationOptions
 {
@@ -13,5 +14,7 @@ namespace ClassifiedAds.WebAPI.ConfigurationOptions
         public string AllowedHosts { get; set; }
 
         public CORS CORS { get; set; }
+
+        public Dictionary<string, string> SecurityHeaders { get; set; }
     }
 }

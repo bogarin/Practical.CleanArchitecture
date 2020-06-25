@@ -2,6 +2,7 @@
 using ClassifiedAds.WebMVC.ConfigurationOptions.MessageBroker;
 using ClassifiedAds.WebMVC.ConfigurationOptions.Storage;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 
 namespace ClassifiedAds.WebMVC.ConfigurationOptions
 {
@@ -30,6 +31,8 @@ namespace ClassifiedAds.WebMVC.ConfigurationOptions
         public StorageOptions Storage { get; set; }
 
         public MessageBrokerOptions MessageBroker { get; set; }
+
+        public Dictionary<string, string> SecurityHeaders { get; set; }
 
         public ValidateOptionsResult Validate()
         {

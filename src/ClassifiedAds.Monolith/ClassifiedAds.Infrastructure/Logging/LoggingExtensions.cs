@@ -108,6 +108,8 @@ namespace ClassifiedAds.Infrastructure.Logging
         {
             builder.ConfigureLogging((context, logging) =>
             {
+                logging.AddSerilog();
+
                 LoggerOptions options = SetDefault(logOptions(context.Configuration));
 
                 if (options.EventLog != null && options.EventLog.IsEnabled)
@@ -121,8 +123,6 @@ namespace ClassifiedAds.Infrastructure.Logging
 
                 context.HostingEnvironment.UseClassifiedAdsLogger(options);
             });
-
-            builder.UseSerilog();
 
             return builder;
         }
